@@ -58,29 +58,30 @@ También incorpora un módulo de validación y manejo de excepciones, así como 
 project/
 │
 ├── benchmarks/
-│ ├── functions.py # Funciones de benchmark y límites
+│   ├── functions.py          # Funciones de benchmark y límites
 │
 ├── pso/
-│ ├── pso.py # Implementación del algoritmo PSO
+│   ├── pso.py                # Implementación del algoritmo PSO
 │
 ├── comparative/
-│ ├── ga.py # Algoritmo Genético
-│ ├── sa.py # Simulated Annealing
+│   ├── ga.py                 # Algoritmo Genético (GA)
+│   ├── sa.py                 # Simulated Annealing (SA)
 │
 ├── queueing/
-│ ├── mmc_sim.py # Modelo M/M/c y función objetivo
+│   ├── mmc_sim.py            # Modelo M/M/c y función objetivo para PSO
 │
 ├── utils/
-│ ├── validation.py # Validación + excepciones personalizadas
-│ ├── viz.py # Gráficas de convergencia y trayectorias
+│   ├── validation.py         # Validación de parámetros + excepciones personalizadas
+│   ├── viz.py                # Gráficas de convergencia y trayectorias
 │
-├── results/ # Imágenes generadas automáticamente
+├── results/                  # Carpeta donde se guardan las imágenes generadas
 │
-├── main.py # Menú principal del programa
-└── README.md # Documentación
+├── main.py                   # Menú interactivo principal del programa
+└── README.md                 # Documentación general del proyecto
+
 ---
 
-# 🧩 3. Descripción de módulos
+# 3. Descripción de módulos
 
 ## 3.1. `benchmarks/functions.py`
 Contiene las funciones clásicas de optimización:
