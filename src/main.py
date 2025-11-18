@@ -21,6 +21,9 @@ from queueing.mmc_sim import objective_mmcc
 from utils.viz import plot_convergence, plot_trajectories_2d
 import matplotlib.pyplot as plt
 
+from utils.validation import (validate_integer_parameter, validate_float_parameter, ValidationError)
+
+
 def run_pso_custom(func_name, func, dim):
     """
     Ejecuta PSO con parámetros personalizados ingresados por el usuario.
@@ -30,12 +33,15 @@ def run_pso_custom(func_name, func, dim):
         dim: Dimensionalidad del problema
     """
     print("\n=== CONFIGURACIÓN PSO ===")
-    n_particles = int(input("Número de partículas: "))
-    iterations = int(input("Número de iteraciones: "))
-    w = float(input("Ingrese w (inercia): "))
-    c1 = float(input("Ingrese c1 (componente cognitiva): "))
-    c2 = float(input("Ingrese c2 (componente social): "))
-
+    try:
+        n_particles = validate_integer_parameter(input("Número de partículas: "), "Número de partículas")
+        iterations = validate_integer_parameter(input("Número de iteraciones: "), "Número de iteraciones")  
+        w = validate_float_parameter(input("Ingrese w (inercia): "), "w (inercia)")
+        c1 = validate_float_parameter(input("Ingrese c1 (componente cognitiva): "), "c1 (componente cognitiva)")
+        c2 = validate_float_parameter(input("Ingrese c2 (componente social): "), "c2 (componente social)")
+    except ValidationError as e:
+        print("\n" + str(e) + "\n")
+    return
     low, high = benchmark_bounds(func_name, dim)
 
     pso = PSO(
