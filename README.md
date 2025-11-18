@@ -55,6 +55,7 @@ También incorpora un módulo de validación y manejo de excepciones, así como 
 ---
 
 # 2. Arquitectura de la solución
+```
 project/
 │
 ├── benchmarks/
@@ -78,7 +79,7 @@ project/
 │
 ├── main.py                   # Menú interactivo principal del programa
 └── README.md                 # Documentación general del proyecto
-
+```
 ---
 
 # 3. Descripción de módulos
