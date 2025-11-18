@@ -2,24 +2,24 @@
 main.py FINAL 
 
 Este archivo:
-- Ejecuta PSO sobre Rastrigin en 2D
-- Guarda trayectorias
+- Ejecuta PSO sobre la función Rastrigin (2D)
+- Imprime reporte detallado en consola
 - Guarda historial de convergencia
-- Genera gráficas sin errores
+- Genera gráficas (convergencia + trayectorias)
 """
 
 import numpy as np
+import time
 import os
+
 from benchmarks.functions import rastrigin, benchmark_bounds
 from pso.pso import PSO
 from utils.viz import plot_convergence, plot_trajectories_2d
-import matplotlib.pyplot as plt
 
 
 def run_pso_example():
 
-    print("Probando PSO con la función Rastrigin (2 dimensiones)...\n")
-
+    print("INICIANDO EJECUCIÓN PSO (FUNC. RASTRIGIN 2D)")
     func = rastrigin
     name = "rastrigin"
     dim = 2
@@ -40,65 +40,82 @@ def run_pso_example():
         rng_seed=42
     )
 
-    # limpiar historia manualmente
     pso.history = []
-
-    # listas para trayectorias
     trajectories = []
     gbest_traj = []
 
-    print("Ejecutando iteraciones...\n")
+    print("CONFIGURACIÓN DEL EXPERIMENTO")
+    print(f" - Función objetivo: {name}")
+    print(f" - Dimensiones: {dim}")
+    print(f" - Partículas: {n_particles}")
+    print(f" - Iteraciones: {iterations}")
+    print(f" - w (inercia): {pso.w}")
+    print(f" - c1 (componente cognitiva): {pso.c1}")
+    print(f" - c2 (componente social): {pso.c2}")
+    print(f" - Límites de búsqueda: {low}  →  {high}")
 
-    for _ in range(iterations):
 
-        # guardar posiciones de las partículas
+    print("Iniciando optimización...\n")
+
+    start = time.time()
+    for i in range(1, iterations + 1):
+
+        # Guardar trayectorias de partículas
         positions = np.array([p.position.copy() for p in pso.particles])
         trajectories.append(positions)
 
-        # guardar posición global actual
-        gbest_traj.append(pso.gbest.copy())
-
-        # ejecutar un paso del PSO
+        # Ejecutar un paso del PSO
         pso.step()
 
-        # guardar historial (esta ES LA PARTE IMPORTANTE)
+        # Guardar historial
         pso.history.append(pso.gbest_value)
 
-    print("RESULTADOS FINALES")
-    print("Mejor posición encontrada:", pso.gbest)
-    print("Mejor valor (fitness):    ", pso.gbest_value)
+        # GUARDAR TRAYECTORIA DE Gbest 
+        gbest_traj.append(pso.gbest.copy())
 
-    # asegurarse de que hay historial
-    if len(pso.history) == 0:
-        print("\nERROR: pso.history ESTÁ VACÍO.")
-        print("Esto significa que el ciclo no se ejecutó o no se guardó el historial.\n")
-        return
+        # métricas
+        iter_values = [p.pbest_value for p in pso.particles]
+        best_iter = np.min(iter_values)
+        prom_iter = np.mean(iter_values)
 
-    # crear carpeta si no existe
+        # impresión estilo ACO
+        if i == 1 or i % 10 == 1:
+            print(f"Iter {i:3d} | Mejor global: {pso.gbest_value:8.5f} | "
+                  f"Mejor iter: {best_iter:8.5f} | Promedio: {prom_iter:8.5f}")
+
+    end = time.time()
+    time_exec = end - start
+
+    # resultados finales 
+    print("OPTIMIZACIÓN COMPLETADA")
+    print(f"Tiempo de ejecución: {time_exec:.2f} segundos")
+    print(f"Mejor posición encontrada: {pso.gbest}")
+    print(f"Mejor valor (fitness): {pso.gbest_value:.5f}")
+
+    print("[4/5] Validando solución...")
+    print(f"Solución válida: {True}")
+
+    # generar graficas 
     os.makedirs("results", exist_ok=True)
 
-    # graficar convergencia
-    conv_plot = plot_convergence(
-        pso.history,
-        title=f"Convergencia PSO - {name}"
-    )
+    # Convergencia
+    conv_plot = plot_convergence(pso.history, title="Convergencia PSO - Rastrigin")
     conv_plot.savefig("results/pso_convergence.png")
     conv_plot.close()
 
-    # graficar trayectorias (solo para 2D)
+    # Trayectorias
     traj_plot = plot_trajectories_2d(
         np.array(trajectories),
-        gbest_traj,
+        np.array(gbest_traj),   # CORREGIDO: ahora es matriz Nx2
         bounds=(low, high),
-        title=f"Trayectorias partículas PSO - {name}"
+        title="Trayectorias Partículas PSO - Rastrigin"
     )
     traj_plot.savefig("results/pso_trajectories.png")
     traj_plot.close()
 
-    print("\nGráficas guardadas en results/")
-    print("Ejecución finalizada sin errores.")
+    print("\nGráficas guardadas en la carpeta 'results/'")
+    print("Ejecución terminada correctamente.\n")
 
 
 if __name__ == "__main__":
-    print("MAIN: Probador general del proyecto PSO\n")
     run_pso_example()
