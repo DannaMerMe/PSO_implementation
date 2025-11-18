@@ -163,13 +163,10 @@ Módulo para validación y manejo de excepciones:
 ```python
 class ValidationError(Exception):
     pass
+```
 #  4. Manejo de excepciones
 
-El sistema incluye una clase personalizada:
 
-```python
-class ValidationError(Exception):
-    pass
 
 ## Validaciones aplicadas en PSO
 
@@ -188,13 +185,14 @@ try:
 except ValidationError as e:
     print(e)
     return
+```
 ### En caso de error:
 
 - El programa **NO** se cierra.  
 - Vuelve al menú principal.
 
 ---
-#Ejemplo de uso (Paso a Paso)
+# Ejemplo de uso 
 
 A continuación se muestra un ejemplo real de cómo funciona el sistema una vez ejecutado.
 
@@ -204,6 +202,7 @@ A continuación se muestra un ejemplo real de cómo funciona el sistema una vez 
 
 ```bash
 python main.py
+```
 
 Al iniciar aparece el menu principal
 
@@ -234,7 +233,6 @@ Ingrese c2 (componente social): 1.5
 
 
 ##  Funciones evaluadas
-
 - Sphere  
 - Rastrigin  
 - Ackley  
@@ -287,16 +285,21 @@ Ingrese c2 (componente social): 1.5
 
 ```bash
 python -m venv venv
+```
 
 ## 2. Activar entorno
 ### Windows
 ```bash
 .\venv\Scripts\activate
+```
 
 ### Linux/Mac
+```
 source venv/bin/activate
+```
 
 ## 3. Instalar dependencias
 ```bash
 pip install --upgrade pip
 pip install -r requirements.txt
+```
