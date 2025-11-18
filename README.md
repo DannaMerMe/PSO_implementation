@@ -1,6 +1,5 @@
 # Optimización por Enjambre de Partículas
 
-# Sistema de Optimización con PSO, GA, SA y M/M/c
 
 ## Descripción general
 
