@@ -160,10 +160,6 @@ Los archivos se guardan automáticamente en `/results`.
 
 Módulo para validación y manejo de excepciones:
 
-```python
-class ValidationError(Exception):
-    pass
-```
 #  4. Manejo de excepciones
 
 
